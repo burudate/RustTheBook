@@ -1,11 +1,12 @@
+extern crate gessing_game;
+
 use std::io;
-use std::cmp::Ordering;
 use rand::Rng;
 
 fn main() {
     println!("あててね");
 
-    let secret_number = rand::thread_rng().gen_range(1..101);
+    let secret_number = rand::thread_rng().gen_range(1..11);
     //println!("答えは{}", secret_number);
     
     loop {
@@ -27,13 +28,18 @@ fn main() {
 
         println!("次のように予想しました: {}", guess);
 
-        match guess.cmp(&secret_number) {
-            Ordering::Less => println!("小さい"),
-            Ordering::Greater => println!("大きい"),
-            Ordering::Equal => {
-                println!("あたり");
-                break;
-            }
-        }
+        let result = gessing_game::judge(&secret_number, &guess);
+        println!("{}", result.0);
+        if result.1 {break;}
+
+        // 練習のため外だししてテストを追加します。
+        // match guess.cmp(&secret_number) {
+        //     Ordering::Less => println!("小さい"),
+        //     Ordering::Greater => println!("大きい"),
+        //     Ordering::Equal => {
+        //         println!("あたり");
+        //         break;
+        //     }
+        // }
     }
 }
